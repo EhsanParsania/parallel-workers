@@ -11,7 +11,7 @@ $(document).ready(function () {
   for (let i = 1; i <= docNumber; i++) {
     let time = (Math.random() * 5 + 5).toFixed(1)
     $('.doc-container').append(` <span id=${i} class="document">
-  <p>Doc${i} <br> ${time} s</p>
+  <p><span class="document-title">Doc${i} </span> <br> ${time} s</p>
 </span>`)
 
     documents = [...documents, { id: i, time: time }]
