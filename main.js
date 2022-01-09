@@ -1,8 +1,7 @@
 $(document).ready(function () {
 
   $('.start-button').click(function () {
-    window.location.href = "http://127.0.0.1:5500/index.html";
-
+    window.location.reload()
   })
 
   // generate documents :
@@ -19,7 +18,7 @@ $(document).ready(function () {
 
 
 
-// function for doing every jobs :
+  // function for doing every jobs :
   function asyncOperation(job) {
     return new Promise(function (response, reject) {
       setTimeout(() => {
@@ -30,7 +29,7 @@ $(document).ready(function () {
   }
   console.log(documents)
 
-
+  // define number of workers 
   const parallelWorkerCount = 4;
 
   $('.doc-counter').html(`Document : ${docNumber}`)
@@ -50,13 +49,9 @@ $(document).ready(function () {
       for (const item of queue) yield item;
     })();
 
-
-
     const workers = ','.repeat(parallelWorkerCount).split(',').map((v, i) => i + 1)
-
     const allAsyncOps = []
     let queueEndReached = false;
-
     workers.forEach(async worker => {
       console.log("Worker", worker, "started!")
       for (const job of queueGenerator) {
@@ -93,66 +88,4 @@ $(document).ready(function () {
     })
 
   })()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 })
-
-
-
-
-
-// const queueSize = 10
-// const parallelWorkerCount = 3
-
-// const sampleQueue = ','.repeat(queueSize).split(',').map(()=>Math.floor(Math.random()*1000))
-// // console.log('sampleQueue:', sampleQueue)
-
-// const queueGenerator = (function* () {
-//   for (const item of sampleQueue) yield item;
-// })()
-// console.log(sampleQueue)
-// // Demonstrate how picking a work from the queue works using the queueGenerator
-// console.log('pick a work:', queueGenerator.next().value)
-// console.log('pick a work:', queueGenerator.next().value)
-// console.log('pick a work:', queueGenerator.next().value)
-
-// const sampleAsyncOp = (time, job) => new Promise((res, rej) => setTimeout(() => res(job), time))
-
-// const workers = ','.repeat(parallelWorkerCount).split(',').map((v, i) => i + 1)
-
-// const allAsyncOps = []
-// let queueEndReached = false;
-
-// workers.forEach(async worker => {
-//   console.log("Worker", worker, "started!")
-//   for (const job of queueGenerator) {
-//     const jobTime = Math.random() * 6000 + 500;
-//     console.log("Worker", worker, "PICKED Job", job, `(takes ${Math.floor(jobTime / 100) / 10}s)`)
-//     const asyncOp = sampleAsyncOp(job, jobTime)
-//     allAsyncOps.push(asyncOp)
-//     const jobResult = await asyncOp
-//     console.log("Worker", worker, "FINISHED Job", job, `(confirmed ${jobResult == job})`)
-//   }
-//   console.log("Worker", worker, "has no job!")
-//   if (!queueEndReached) {
-//     console.log("First jobless worker. End of Queue Reached! Waiting for all to finish.")
-//     Promise.all(allAsyncOps).then(results => console.log("ALL FINISHED!!!", results))
-//     queueEndReached = true;
-//   }
-// })
-
